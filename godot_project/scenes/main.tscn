@@ -38,5 +38,10 @@ text = "Measure load() Scenes"
 layout_mode = 2
 text = "Measure Objects"
 
+[node name="MeasureResourcesButton" type="Button" parent="VBoxContainer" unique_id=1494285758]
+layout_mode = 2
+text = "Measure Resources"
+
 [connection signal="pressed" from="VBoxContainer/MeasureLoadScenesButton" to="." method="_on_measure_load_scenes_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MeasureObjectsButton" to="." method="_on_measure_objects_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MeasureResourcesButton" to="." method="_on_measure_resources_button_pressed"]

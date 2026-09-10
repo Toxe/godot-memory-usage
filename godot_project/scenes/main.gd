@@ -3,6 +3,7 @@ extends Control
 var _scene: PackedScene = null
 var _instance: Node = null
 var _object: Object = null
+var _resource: Resource = null
 
 @onready var _timer: Timer = $Timer
 
@@ -54,14 +55,34 @@ func _measure_object() -> void:
     _object = null
     var m2 := await _wait_and_get_memory()
 
-    var object_size1 := m1 - m0
-    var object_size2 := m1 - m2
-    var object_size_diff := object_size1 - object_size2
+    var size1 := m1 - m0
+    var size2 := m1 - m2
+    var size_diff := size1 - size2
 
-    if object_size_diff == 0:
-        print("object=%d" % [object_size1])
+    if size_diff == 0:
+        print("object=%d" % [size1])
     else:
-        print("ERROR, something went wrong, object: %d vs. %d" % [object_size1, object_size2])
+        print("ERROR, something went wrong, object: %d vs. %d" % [size1, size2])
+
+
+func _measure_resource() -> void:
+    var _throw_away := await _wait_and_get_memory()
+    var m0 := await _wait_and_get_memory()
+
+    _resource = Resource.new()
+    var m1 := await _wait_and_get_memory()
+
+    _resource = null
+    var m2 := await _wait_and_get_memory()
+
+    var size1 := m1 - m0
+    var size2 := m1 - m2
+    var size_diff := size1 - size2
+
+    if size_diff == 0:
+        print("resource=%d" % [size1])
+    else:
+        print("ERROR, something went wrong, resource: %d vs. %d" % [size1, size2])
 
 
 func _on_measure_load_scenes_button_pressed() -> void:
@@ -75,4 +96,12 @@ func _on_measure_load_scenes_button_pressed() -> void:
 func _on_measure_objects_button_pressed() -> void:
     print("============================================================")
     await _measure_object()
+    assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
+
+
+func _on_measure_resources_button_pressed() -> void:
+    print("============================================================")
+    await _measure_resource()
+    await _measure_resource()
+    await _measure_resource()
     assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
