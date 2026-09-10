@@ -12,7 +12,11 @@ grow_vertical = 2
 script = ExtResource("1_o5qli")
 metadata/_edit_lock_ = true
 
-[node name="MeasureLoadScenesButton" type="Button" parent="." unique_id=1366089033]
+[node name="Timer" type="Timer" parent="." unique_id=724763274]
+wait_time = 0.05
+one_shot = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=817934938]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -20,15 +24,19 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -90.5
-offset_top = -15.5
+offset_top = -20.0
 offset_right = 90.5
-offset_bottom = 15.5
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MeasureLoadScenesButton" type="Button" parent="VBoxContainer" unique_id=1366089033]
+layout_mode = 2
 text = "Measure load() Scenes"
 
-[node name="Timer" type="Timer" parent="." unique_id=724763274]
-wait_time = 0.05
-one_shot = true
+[node name="MeasureObjectsButton" type="Button" parent="VBoxContainer" unique_id=898086190]
+layout_mode = 2
+text = "Measure Objects"
 
-[connection signal="pressed" from="MeasureLoadScenesButton" to="." method="_on_measure_load_scenes_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MeasureLoadScenesButton" to="." method="_on_measure_load_scenes_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MeasureObjectsButton" to="." method="_on_measure_objects_button_pressed"]
