@@ -45,6 +45,7 @@ func _measure_scene(path: String) -> void:
         print("%s, scene: %d, instance: %d" % [path, scene_size1, instance_size1])
     else:
         print("%s, ERROR, something went wrong, scene: %d vs. %d, instance: %d vs. %d" % [path, scene_size1, scene_size2, instance_size1, instance_size2])
+    assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
 
 
 func _measure_type(type: Variant) -> void:
@@ -80,7 +81,8 @@ func _on_measure_load_scenes_button_pressed() -> void:
     await _measure_scene("res://scenes/test_scenes/empty_node.tscn")
     await _measure_scene("res://scenes/test_scenes/empty_node2d.tscn")
     await _measure_scene("res://scenes/test_scenes/empty_control.tscn")
-    assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
+    await _measure_scene("res://scenes/test_scenes/node_with_empty_script.tscn")
+    await _measure_scene("res://scenes/test_scenes/node_with_simple_script.tscn")
 
 
 func _on_measure_objects_button_pressed() -> void:
