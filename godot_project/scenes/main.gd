@@ -7,6 +7,10 @@ var _object: Object = null
 @onready var _timer: Timer = $Timer
 
 
+func _ready() -> void:
+    ($HBoxContainer/VBoxContainer/MeasureObjectsButton as Control).grab_focus()
+
+
 func _wait_and_get_memory() -> int:
     _timer.start();
     await _timer.timeout
