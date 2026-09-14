@@ -89,3 +89,7 @@ func _on_measure_ref_counted_button_pressed() -> void:
 
 func _on_measure_resources_button_pressed() -> void:
     await _measure_type(Resource)
+
+
+func _on_quit_button_pressed() -> void:
+    get_tree().quit()
