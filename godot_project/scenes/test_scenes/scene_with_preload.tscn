@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://lrstcmgix4r4"]
+
+[ext_resource type="Script" uid="uid://d2nj5sv7xwaxs" path="res://scenes/test_scenes/scene_with_preload.gd" id="1_tlaj8"]
+
+[node name="SceneWithPreload" type="Node" unique_id=638074292]
+script = ExtResource("1_tlaj8")

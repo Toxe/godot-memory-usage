@@ -43,6 +43,50 @@ func _measure_scene(path: String) -> void:
     assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
 
 
+func _measure_instantiate_from_script(path: String) -> void:
+    var _throw_away := await _wait_and_get_memory()
+    var m0 := await _wait_and_get_memory()
+
+    _scene = load(path)
+    var m1 := await _wait_and_get_memory()
+
+    _instance = _scene.instantiate()
+    var m2 := await _wait_and_get_memory()
+
+    @warning_ignore("unsafe_method_access")
+    _instance.load_scenes()
+    var m3 := await _wait_and_get_memory()
+
+    @warning_ignore("unsafe_method_access")
+    _instance.instantiate_scenes()
+    var m4 := await _wait_and_get_memory()
+
+    @warning_ignore("unsafe_method_access")
+    _instance.cleanup_instances()
+    var m5 := await _wait_and_get_memory()
+
+    @warning_ignore("unsafe_method_access")
+    _instance.cleanup_scenes()
+    var m6 := await _wait_and_get_memory()
+
+    _instance.queue_free()
+    _instance = null
+    var m7 := await _wait_and_get_memory()
+
+    _scene = null
+    var m8 := await _wait_and_get_memory()
+
+    var scene_size := m1 - m0
+    var instance_size := m2 - m1
+    var loaded_scenes_size := m3 - m2
+    var instantiated_scenes_size := m4 - m3
+    if scene_size == (m7 - m8) && instance_size == (m6 - m7) && loaded_scenes_size == (m5 - m6) && instantiated_scenes_size == (m4 - m5):
+        print("%s, scene: %d, instance: %d, loaded_scenes: %d, instantiated_scenes: %d" % [path, scene_size, instance_size, loaded_scenes_size, instantiated_scenes_size])
+    else:
+        print("%s, ERROR, something went wrong" % [path])
+    assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
+
+
 func _measure_type(type: Variant) -> void:
     var _throw_away := await _wait_and_get_memory()
     var m0 := await _wait_and_get_memory()
@@ -77,6 +121,11 @@ func _on_measure_load_scenes_button_pressed() -> void:
     await _measure_scene("res://scenes/test_scenes/empty_control.tscn")
     await _measure_scene("res://scenes/test_scenes/node_with_empty_script.tscn")
     await _measure_scene("res://scenes/test_scenes/node_with_simple_script.tscn")
+
+
+func _on_measure_instantiate_from_script_button_pressed() -> void:
+    await _measure_instantiate_from_script("res://scenes/test_scenes/scene_with_load.tscn")
+    await _measure_instantiate_from_script("res://scenes/test_scenes/scene_with_preload.tscn")
 
 
 func _on_measure_objects_button_pressed() -> void:
