@@ -16,37 +16,46 @@ metadata/_edit_lock_ = true
 wait_time = 0.05
 one_shot = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=817934938]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1843993323]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -90.5
-offset_top = -20.0
-offset_right = 90.5
-offset_bottom = 20.0
+offset_left = -106.0
+offset_top = -50.5
+offset_right = 106.0
+offset_bottom = 50.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MeasureLoadScenesButton" type="Button" parent="VBoxContainer" unique_id=1366089033]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=817934938]
 layout_mode = 2
-text = "Measure load() Scenes"
 
-[node name="MeasureObjectsButton" type="Button" parent="VBoxContainer" unique_id=898086190]
+[node name="MeasureObjectsButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=898086190]
 layout_mode = 2
-text = "Measure Objects"
+text = "Object"
+alignment = 0
 
-[node name="MeasureRefCountedButton" type="Button" parent="VBoxContainer" unique_id=228698695]
+[node name="MeasureRefCountedButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=228698695]
 layout_mode = 2
-text = "Measure RefCounted"
+text = "RefCounted"
+alignment = 0
 
-[node name="MeasureResourcesButton" type="Button" parent="VBoxContainer" unique_id=1494285758]
+[node name="MeasureResourcesButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1494285758]
 layout_mode = 2
-text = "Measure Resources"
+text = "Resource"
+alignment = 0
 
-[connection signal="pressed" from="VBoxContainer/MeasureLoadScenesButton" to="." method="_on_measure_load_scenes_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/MeasureObjectsButton" to="." method="_on_measure_objects_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/MeasureRefCountedButton" to="." method="_on_measure_ref_counted_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/MeasureResourcesButton" to="." method="_on_measure_resources_button_pressed"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=756369375]
+layout_mode = 2
+
+[node name="MeasureLoadScenesButton" type="Button" parent="HBoxContainer/VBoxContainer2" unique_id=1366089033]
+layout_mode = 2
+text = "load() Scenes"
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/MeasureObjectsButton" to="." method="_on_measure_objects_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/MeasureRefCountedButton" to="." method="_on_measure_ref_counted_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/MeasureResourcesButton" to="." method="_on_measure_resources_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/MeasureLoadScenesButton" to="." method="_on_measure_load_scenes_button_pressed"]
