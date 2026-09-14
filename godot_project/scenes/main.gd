@@ -34,17 +34,12 @@ func _measure_scene(path: String) -> void:
     _scene = null
     var m4 := await _wait_and_get_memory()
 
-    var scene_size1 := m1 - m0
-    var scene_size2 := m3 - m4
-    var scene_size_diff := scene_size1 - scene_size2
-    var instance_size1 := m2 - m1
-    var instance_size2 := m2 - m3
-    var instance_size_diff := instance_size1 - instance_size2
-
-    if scene_size_diff == 0 && instance_size_diff == 0:
-        print("%s, scene: %d, instance: %d" % [path, scene_size1, instance_size1])
+    var scene_size := m1 - m0
+    var instance_size := m2 - m1
+    if scene_size == (m3 - m4) && instance_size == (m2 - m3):
+        print("%s, scene: %d, instance: %d" % [path, scene_size, instance_size])
     else:
-        print("%s, ERROR, something went wrong, scene: %d vs. %d, instance: %d vs. %d" % [path, scene_size1, scene_size2, instance_size1, instance_size2])
+        print("%s, ERROR, something went wrong" % [path])
     assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
 
 
@@ -64,12 +59,11 @@ func _measure_type(type: Variant) -> void:
     _object = null
     var m3 := await _wait_and_get_memory()
 
-    var size1 := m1 - m0
-    var size2 := m2 - m3
-    if size1 - size2 == 0:
-        print("%s: %d" % [type_name, size1])
+    var type_size := m1 - m0
+    if type_size == (m2 - m3):
+        print("%s: %d" % [type_name, type_size])
     else:
-        print("ERROR, something went wrong, %s: %d vs. %d" % [type_name, size1, size2])
+        print("ERROR, something went wrong")
     assert(Performance.get_monitor(Performance.OBJECT_ORPHAN_NODE_COUNT) == 0)
 
 
